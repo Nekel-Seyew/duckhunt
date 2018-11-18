@@ -1,10 +1,17 @@
 "use strict";
 
 
-//core variables
+//audio setup from https://threejs.org/docs/#api/en/audio/Audio
+//Base setup from https://threejs.org
+
+//cglobal variables
 var scene;
 var camera;
 var renderer;
+var listener;
+
+var audioLoader;
+
 
 var div; //if in the HTML the div's height or width change, update the values to here
 var HEIGHT = 512;
@@ -17,6 +24,8 @@ var ducks = [];
 
 //Cannon Variables
 var cannonballs = [];
+var cannonsound;
+
 
 window.onload = function init(){
     //setup area
@@ -28,27 +37,47 @@ window.onload = function init(){
     div.appendChild(renderer.domElement);
     camera.position.set(0,0,5);
     scene.add(camera);
+    listener = new THREE.AudioListener();
+    camera.add(listener);
+    audioLoader = new THREE.AudioLoader();
 
     renderer.setClearColor(0x333F47, 1);
 
-    var geometry = new THREE.BoxGeometry(1,1,1);
-    var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    var cube = new THREE.Mesh(geometry,material);
-    scene.add(cube);
+    // var geometry = new THREE.BoxGeometry(1,1,1);
+    // var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    // var cube = new THREE.Mesh(geometry,material);
+    // scene.add(cube);
 
-    var animate=function(){
-        requestAnimationFrame(animate);
-
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
-
-        renderer.render(scene,camera);
-    };
+    // var animate=function(){
+    //     requestAnimationFrame(animate);
+    //
+    //     cube.rotation.x += 0.01;
+    //     cube.rotation.y += 0.01;
+    //
+    //     renderer.render(scene,camera);
+    // };
 
     //animate();
 
+
+    //button control area
+
+
+
+    //initialization area
     var ball = cannonball(scene,[0,-0.02,0.01], [0,0,10]);
     cannonballs.push(ball);
+
+    cannonsound = new THREE.Audio(listener);
+    audioLoader.load('audio/91293__baefild__uncompressed-cannon_smaller.mp3',function(buffer){ //https://freesound.org/people/baefild/sounds/91293/
+        cannonsound.setBuffer(buffer);
+        cannonsound.setLoop(false);
+        cannonsound.setVolume(0.5);
+    });
+
+    document.getElementById("fire").onclick=function() {
+        cannonsound.play();
+    };
 
     render();
 
