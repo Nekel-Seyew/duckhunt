@@ -85,7 +85,8 @@ window.onload = function init(){
 
 function render(){
 
-    for(var duck in ducks){
+    for(var i=0; i<ducks.length; i++){
+        var duck = ducks[i];
         duck.GameUpdate();
     }
 
@@ -133,9 +134,3 @@ var cannonball = function(scene, direction, position) {
 
     return cb;
 };
-function CannonballGameUpdate(ball){
-    //console.log(ball);
-    ball['sph'].position.z += ball['direction'][2];
-    ball['sph'].position.y += ball['direction'][1];
-    ball['sph'].position.x += ball['direction'][0];
-}
