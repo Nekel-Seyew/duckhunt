@@ -20,6 +20,7 @@ var WIDTH = 512;
 
 //Duck Variables
 var ducks = [];
+var ducksound;
 
 
 //Cannon Variables
@@ -78,6 +79,13 @@ window.onload = function init(){
         cannonsound.setVolume(0.5);
     });
 
+    ducksound = new THREE.Audio(listener);
+    audioLoader.load('audio/185550__crazyduckman__shocked-duck',function(buffer){ //https://freesound.org/people/baefild/sounds/91293/
+        ducksound.setBuffer(buffer);
+        ducksound.setLoop(false);
+        ducksound.setVolume(0.5);
+    });
+
     document.getElementById("fire").onclick=function() {
         cannonsound.play();
     };
@@ -114,8 +122,10 @@ var cannonball = function(scene, direction, position) {
     cb['direction'] = direction;
     cb['position'] = position;
 
+    cb['radius'] = 1;
+
     //create the model and stuff, and add it to scene.
-    var geo = new THREE.SphereGeometry(1, 128, 128);
+    var geo = new THREE.SphereGeometry(cb['radius'], 128, 128);
     var mat = new THREE.MeshBasicMaterial({color: 0x000000});
     var sph = new THREE.Mesh(geo, mat);
 
@@ -134,6 +144,29 @@ var cannonball = function(scene, direction, position) {
         ball['sph'].position.z += ball['direction'][2];
         ball['sph'].position.y += ball['direction'][1];
         ball['sph'].position.x += ball['direction'][0];
+
+        ball['position'][0] = ball['direction'][0];
+        ball['position'][1] = ball['direction'][1];
+        ball['position'][2] = ball['direction'][2];
+
+        var remove = null;
+        for(var i = 0; i<ducks.length; i++){
+            var d = ducks[i];
+            var dsphereRadius = d['obj'].geometry.boundingSphere.radius;
+
+            if(Math.pow((ball['position'][0] - d['position'][0]),2) +
+                Math.pow((ball['position'][1] - d['position'][1]),2) +
+                Math.pow((ball['position'][2] - d['position'][2]),2)
+                <= Math.pow(dsphereRadius,2) + Math.pow(cb['radius'],2)){
+                    remove = i;
+                    break;
+            }
+
+        }
+        if(remove !== null){
+            ducks.splice(remove,1);
+            ducksound.play();
+        }
      };
 
 
