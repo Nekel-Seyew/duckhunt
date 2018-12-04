@@ -10,7 +10,7 @@ function duck(scene, position, direction, scale, rotate){
     new THREE.MTLLoader().load('models/10602_Rubber_Duck_v1_L3.mtl',function(materials){
         materials.preload();
         new THREE.OBJLoader().setMaterials(materials).load('models/10602_Rubber_Duck_v1_L3.obj',function(obj){
-console.log(obj);
+// console.log(obj);
             obj.position.x=position[0];
             obj.position.y=position[1];
             obj.position.z=position[2];
@@ -24,10 +24,10 @@ console.log(obj);
             obj.rotation.z = rotate[2];
 
             obj.children[0].geometry.computeBoundingSphere();
-	    ducky['bound'] = obj.children[0].geometry.boundingSphere;
+	        ducky['bound'] = obj.children[0].geometry.boundingSphere;
 
             ducky.add(obj);
-	    scene.add(ducky);
+	        scene.add(ducky);
 
         },onProgress,function(){});
     });
@@ -36,16 +36,14 @@ console.log(obj);
 
     ducky['update'] = function(mduck){
         duckObj = mduck.getObjectByName( "position", true );
-	
-	if (mduck.position.x < 15.0 && mduck.position.x <= -15.0){
-		
-	}
+        if (mduck.position.x < 15.0 && mduck.position.x <= -15.0){
 
-        mduck.position.x += direction[0];
-        mduck.position.y += direction[1];
-        mduck.position.z += direction[2];
+        }
+            mduck.position.x += direction[0];
+            mduck.position.y += direction[1];
+            mduck.position.z += direction[2];
 
-    };
+        };
 
     return ducky;
 }

@@ -158,15 +158,16 @@ var cannonball = function(scene, direction, position) {
         var remove = null;
         for(var i = 0; i<ducks.length; i++){
             var d = ducks[i];
-            var dsphereRadius = d['bound'].radius;
+            var dsphereRadius = d['bound'];
+            //console.log(dsphereRadius);
 
-            if(Math.pow((ball['position'][0] - d['position'][0]),2) +
-                Math.pow((ball['position'][1] - d['position'][1]),2) +
-                Math.pow((ball['position'][2] - d['position'][2]),2)
-                <= Math.pow(dsphereRadius,2) + Math.pow(cb['radius'],2)){
-                    remove = i;
-                    break;
-            }
+            // if(Math.pow((ball['position'][0] - d['position'][0]),2) +
+            //     Math.pow((ball['position'][1] - d['position'][1]),2) +
+            //     Math.pow((ball['position'][2] - d['position'][2]),2)
+            //     <= Math.pow(dsphereRadius,2) + Math.pow(cb['radius'],2)){
+            //         remove = i;
+            //         break;
+            // }
 
         }
         if(remove !== null){
