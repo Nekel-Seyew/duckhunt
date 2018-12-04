@@ -19,6 +19,7 @@ var WIDTH = 512;
 
 
 //Duck Variables
+var ducky;
 var ducks = [];
 
 
@@ -41,7 +42,7 @@ window.onload = function init(){
     camera.add(listener);
     audioLoader = new THREE.AudioLoader();
 
-    renderer.setClearColor(0x333F47, 1);
+    renderer.setClearColor(0xb2b2b2, 1);
 
     // var geometry = new THREE.BoxGeometry(1,1,1);
     // var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
@@ -68,9 +69,14 @@ window.onload = function init(){
     var ball = cannonball(scene,[0,-0.02,0.01], [0,0,10]);
     cannonballs.push(ball);
 
-    var aduck = duck(scene,[0,0,-10],[0.1,0,0],[0.5,0.5,0.5],[-Math.PI/2,0,Math.PI/2]);
-    ducks.push(aduck);
-
+	for (var i = 0; i<10; i++){
+    		var aduck = duck(scene,[(i*(-2.5))-15.0,5.0,-10],[0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,Math.PI/2]);
+	    	ducks.push(aduck);
+	}
+	for (var i = 0; i<10; i++){
+    		var aduck = duck(scene,[(i*(2.5))+15.0,0,-10],[-0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,-Math.PI/2]);
+	    	ducks.push(aduck);
+	}
     cannonsound = new THREE.Audio(listener);
     audioLoader.load('audio/91293__baefild__uncompressed-cannon_smaller.mp3',function(buffer){ //https://freesound.org/people/baefild/sounds/91293/
         cannonsound.setBuffer(buffer);
@@ -82,7 +88,7 @@ window.onload = function init(){
         cannonsound.play();
     };
 
-    scene.add(new THREE.AmbientLight(0xffffff,0.4));
+    scene.add(new THREE.AmbientLight(0xffffff,0.9));
 
     render();
 
@@ -92,7 +98,7 @@ function render(){
 
     for(var i=0; i<ducks.length; i++){
         var d = ducks[i];
-        //d['update'](d);
+        d['update'](d);
     }
 
     //console.log(cannonballs);
