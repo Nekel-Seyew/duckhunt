@@ -80,7 +80,7 @@ window.onload = function init(){
     });
 
     ducksound = new THREE.Audio(listener);
-    audioLoader.load('audio/185550__crazyduckman__shocked-duck',function(buffer){ //https://freesound.org/people/baefild/sounds/91293/
+    audioLoader.load('audio/185550__crazyduckman__shocked-duck',function(buffer){ //https://freesound.org/people/crazyduckman/sounds/185550/
         ducksound.setBuffer(buffer);
         ducksound.setLoop(false);
         ducksound.setVolume(0.5);
@@ -152,7 +152,7 @@ var cannonball = function(scene, direction, position) {
         var remove = null;
         for(var i = 0; i<ducks.length; i++){
             var d = ducks[i];
-            var dsphereRadius = d['obj'].geometry.boundingSphere.radius;
+            var dsphereRadius = d['bound'].radius;
 
             if(Math.pow((ball['position'][0] - d['position'][0]),2) +
                 Math.pow((ball['position'][1] - d['position'][1]),2) +
