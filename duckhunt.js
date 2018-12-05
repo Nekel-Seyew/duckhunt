@@ -52,7 +52,7 @@ window.onload = function init(){
 
     renderer.setClearColor(0xb2b2b2, 1);
 
-
+    //controlls from Professor's Object Model viewer in lecture 11
     controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 
@@ -154,6 +154,7 @@ function render(){
     }
 	//renderer.render(scene2,camera);
     renderer.render(scene,camera);
+    //controlls from Professor's Object Model viewer in lecture 11
     controls.update();
     setTimeout(function(){requestAnimationFrame(render);},1000.0/60);
 }
