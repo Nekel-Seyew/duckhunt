@@ -82,20 +82,22 @@ window.onload = function init(){
 	var material = new THREE.MeshBasicMaterial({
 		map:texture,
 		side: THREE.DoubleSide,
-		depthTest:false});
+		depthTest:true});
 	
 	var geometry = new THREE.CubeGeometry(20,20,1);
 	var meshBack = new THREE.Mesh(geometry,material);
 	meshBack.rotation.z = Math.PI;
 	meshBack.position.z = -13;
+	meshBack.castShadow = true;
+	meshBack.receiveShadow = true;
 	scene.add(meshBack);
 	
 	//Creating the planks for the cannon, and for the ducks to go across.
-	var row1 = plank(scene,[16,0.5,0],[0,4.3,-9.3],[1,1,1],"yellow-painted-wooden-wall.jpg");
-	var row2 = plank(scene,[16,0.5,0],[0,-0.1,-9.3],[1,1,1],"yellow-painted-wooden-wall.jpg");
+	var row1 = plank(scene,[16,0.5,0],[0,4.3,-12.3],[1,1,1],"yellow-painted-wooden-wall.jpg");
+	var row2 = plank(scene,[16,0.5,0],[0,-0.1,-12.3],[1,1,1],"yellow-painted-wooden-wall.jpg");
 	
-	var counter = plank(scene,[16,4,1],[0,-7,-5],[1,1,1],"red_wood.jpg");
-	var counterTop = plank(scene,[16,1,1],[0,-5,-5],[1,1,1],"wood.jpg");
+	var counter = plank(scene,[16,4,1],[0,-7,-1],[1,1,1],"red_wood.jpg");
+	var counterTop = plank(scene,[16,1,1],[0,-5,-1],[1,1,1],"wood.jpg");
 
     var lantern = lanthern(scene,[4,-4,-5],[0.04,0.04,0.04],[0,0,0],0xFFFF00);
 
@@ -113,16 +115,18 @@ window.onload = function init(){
     var helper = new THREE.CameraHelper(light.shadow.camera);
     scene.add(helper);
 
+    var acannon = cannon(scene,[0,-5,-1],[Math.PI,0,-Math.PI/2],[0.025,0.025,0.025],[-Math.PI/2,0,Math.PI/2]);
+
     //initialization area
     var ball = cannonball(scene,[0,0.0,0], [0,0,-10]);
     cannonballs.push(ball);
 	//rows of ducks
 	for (var i = 0; i<10; i++){
-    		var aduck = duck(scene,[(i*(-2.5))-15.0,5.0,-10],[0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,Math.PI/2]);
+    		var aduck = duck(scene,[(i*(-2.5))-15.0,5.0,-11.7],[0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,Math.PI/2]);
 	    	ducks.push(aduck);
 	}
 	for (var i = 0; i<10; i++){
-    		var aduck = duck(scene,[(i*(2.5))+15.0,0,-10],[-0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,-Math.PI/2]);
+    		var aduck = duck(scene,[(i*(2.5))+15.0,0,-11.7],[-0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,-Math.PI/2]);
 	    	ducks.push(aduck);
 	}
 	
@@ -145,7 +149,38 @@ window.onload = function init(){
 
     document.getElementById("fire").onclick=function() {
         cannonsound.play();
-        allStop = !allStop;
+        var phi = acannon['direction'][0];
+        var theta = acannon['direction'][2];
+        var r = 1;
+        var z = -r * Math.sin(theta) * Math.cos(phi);
+        var y = r * Math.sin(theta) * Math.sin(phi);
+        var x = -r * Math.cos(theta);
+
+        var pos = [acannon['mposition'][0],acannon['mposition'][1],acannon['mposition'][2]];
+
+        var ball = cannonball(scene,[x,y,z],pos);
+
+        for(var i = 0; i< cannonballs.length; i++){
+            var b = cannonballs[i];
+            scene.remove(b);
+        }
+
+        cannonballs = [];
+        cannonballs.push(ball);
+
+    };
+
+    document.getElementById("move-right").onclick=function() {
+        acannon['rotate-right'](acannon);
+    };
+    document.getElementById("move-left").onclick=function() {
+        acannon['rotate-left'](acannon);
+    };
+    document.getElementById("move-up").onclick=function() {
+        acannon['rotate-up'](acannon);
+    };
+    document.getElementById("move-down").onclick=function() {
+        acannon['rotate-down'](acannon);
     };
 
     scene.add(new THREE.AmbientLight(0xffffff,0.9));
@@ -162,12 +197,10 @@ function render(){
             d['update'](d);
         }
 
-        //console.log(cannonballs);
         for (var i = 0; i < cannonballs.length; i++) {
             var b = cannonballs[i];
             //console.log(b);
-            b['update'](b);
-            //CannonballGameUpdate(b);//.GameUpdate();
+            b['update'](b,ducks);
         }
     }
 	//renderer.render(scene2,camera);
@@ -178,84 +211,6 @@ function render(){
 }
 
 
-
-var cannonball = function(scene, direction, position) {
-    var cb = {};
-    cb['direction'] = direction;
-    cb['position'] = position;
-
-    cb['radius'] = 1;
-
-    //create the model and stuff, and add it to scene.
-    var geo = new THREE.SphereGeometry(cb['radius'], 128, 128);
-    var mat = new THREE.MeshBasicMaterial({color: 0x000000});
-    var sph = new THREE.Mesh(geo, mat);
-    sph.geometry.computeBoundingSphere();
-    sph.castShadow = true;
-    sph.receiveShadow = true;
-
-    cb['geo'] = geo;
-    cb['mat'] = mat;
-    cb['sph'] = sph;
-
-
-    sph.position.x = position[0];
-    sph.position.y = position[1];
-    sph.position.z = position[2];
-
-    scene.add(sph);
-
-    cb['update'] = function(ball){
-        ball['sph'].position.z += ball['direction'][2];
-        ball['sph'].position.y += ball['direction'][1];
-        ball['sph'].position.x += ball['direction'][0];
-
-        ball['position'][0] += ball['direction'][0];
-        ball['position'][1] += ball['direction'][1];
-        ball['position'][2] += ball['direction'][2];
-
-        var remove = null;
-        for(var i = 0; i<ducks.length; i++){
-            var d = ducks[i];
-
-            try {
-                var dsphereRadius = d['bound'].radius * d['mscale'][0];
-                var bRadius = ball['sph'].geometry.boundingSphere.radius;
-                dlogoff +=1;
-
-                var distSquared =  Math.pow((ball['position'][0] - d['mposition'][0]),2) +
-                                   Math.pow((ball['position'][1] - d['mposition'][1]),2) +
-                                   Math.pow((ball['position'][2] - d['mposition'][2]),2);
-
-                // if(dlogoff % 10 === 0){
-                //     console.log(Math.pow(dsphereRadius + bRadius,2));
-                //     console.log(distSquared);
-                //     console.log(d['mposition']);
-                //     console.log(ball['sph'].position);
-                // }
-
-                if(distSquared <= Math.pow(dsphereRadius + cb['radius'],2)){
-                        console.log("Heyo, collision!");
-                        remove = i;
-                        break;
-                }
-
-
-            }catch(exception){
-                //do nothing
-            }
-        }
-        if(remove !== null){
-            console.log("Gonna remove: "+remove);
-            var obj = ducks.splice(remove,1);
-            obj[0].position.x=-100000;
-            ducksound.play();
-        }
-     };
-
-
-    return cb;
-};
 
 //taken from the obj+mtl loader from three.js example : https://github.com/mrdoob/three.js/blob/master/examples/webgl_loader_obj_mtl.html
 function onProgress(xhr){
