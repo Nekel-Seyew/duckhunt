@@ -10,6 +10,7 @@ var scene2;
 var camera;
 var renderer;
 var listener;
+var controls;
 
 var audioLoader;
 
@@ -42,13 +43,18 @@ window.onload = function init(){
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(WIDTH, HEIGHT);
     div.appendChild(renderer.domElement);
-    camera.position.set(0,0,5);
+    camera.position.set(0,0,10);
+    //camera.rotation.set(-Math.PI/12,0,0);
     scene.add(camera);
     listener = new THREE.AudioListener();
     camera.add(listener);
     audioLoader = new THREE.AudioLoader();
 
     renderer.setClearColor(0xb2b2b2, 1);
+
+
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+
 
     // var geometry = new THREE.BoxGeometry(1,1,1);
     // var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
@@ -76,16 +82,18 @@ window.onload = function init(){
 		side: THREE.DoubleSide,
 		depthTest:false});
 	
-	var geometry = new THREE.CubeGeometry(10,10,10);
-	var mesh = new THREE.Mesh(geometry,material);
-	scene.add(mesh);
+	var geometry = new THREE.CubeGeometry(20,20,1);
+	var meshBack = new THREE.Mesh(geometry,material);
+	meshBack.rotation.z = Math.PI;
+	meshBack.position.z = -13;
+	scene.add(meshBack);
 	
 	//Creating the planks for the cannon, and for the ducks to go across.
 	var row1 = plank(scene,[16,0.5,0],[0,3.8,-8],[1,1,1],"yellow-painted-wooden-wall.jpg");
 	var row2 = plank(scene,[16,0.5,0],[0,-0.3,-8],[1,1,1],"yellow-painted-wooden-wall.jpg");
 	
-	var counter = plank(scene,[16,4,1],[0,-7,-6],[1,1,1],"red_wood.jpg");
-	var counterTop = plank(scene,[16,1,1],[0,-5,-6],[1,1,1],"wood.jpg");
+	var counter = plank(scene,[16,4,1],[0,-7,-5],[1,1,1],"red_wood.jpg");
+	var counterTop = plank(scene,[16,1,1],[0,-5,-5],[1,1,1],"wood.jpg");
 
     //initialization area
     var ball = cannonball(scene,[0,0.0,0], [0,0,-10]);
@@ -146,6 +154,7 @@ function render(){
     }
 	//renderer.render(scene2,camera);
     renderer.render(scene,camera);
+    controls.update();
     setTimeout(function(){requestAnimationFrame(render);},1000.0/60);
 }
 
