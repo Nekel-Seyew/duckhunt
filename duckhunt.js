@@ -6,6 +6,7 @@
 
 //cglobal variables
 var scene;
+var scene2;
 var camera;
 var renderer;
 var listener;
@@ -36,6 +37,7 @@ window.onload = function init(){
     //setup area
     div = document.getElementById("renderarea");
     scene = new THREE.Scene();
+	scene2 = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, WIDTH/HEIGHT, 0.1, 1000);
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(WIDTH, HEIGHT);
@@ -67,12 +69,28 @@ window.onload = function init(){
 
     //button control area
 
-
+	//cube- Background Box or building?
+	var texture = new THREE.TextureLoader().load("wood.jpg");
+	var material = new THREE.MeshBasicMaterial({
+		map:texture,
+		side: THREE.DoubleSide,
+		depthTest:false});
+	
+	var geometry = new THREE.CubeGeometry(10,10,10);
+	var mesh = new THREE.Mesh(geometry,material);
+	scene.add(mesh);
+	
+	//Creating the planks for the cannon, and for the ducks to go across.
+	var row1 = plank(scene,[16,0.5,0],[0,3.8,-8],[1,1,1],"yellow-painted-wooden-wall.jpg");
+	var row2 = plank(scene,[16,0.5,0],[0,-0.3,-8],[1,1,1],"yellow-painted-wooden-wall.jpg");
+	
+	var counter = plank(scene,[16,4,1],[0,-7,-6],[1,1,1],"red_wood.jpg");
+	var counterTop = plank(scene,[16,1,1],[0,-5,-6],[1,1,1],"wood.jpg");
 
     //initialization area
     var ball = cannonball(scene,[0,0.0,0], [0,0,-10]);
     cannonballs.push(ball);
-
+	//rows of ducks
 	for (var i = 0; i<10; i++){
     		var aduck = duck(scene,[(i*(-2.5))-15.0,5.0,-10],[0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,Math.PI/2]);
 	    	ducks.push(aduck);
@@ -81,7 +99,11 @@ window.onload = function init(){
     		var aduck = duck(scene,[(i*(2.5))+15.0,0,-10],[-0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,-Math.PI/2]);
 	    	ducks.push(aduck);
 	}
-    cannonsound = new THREE.Audio(listener);
+	
+	
+    
+	//cannon Sound
+	cannonsound = new THREE.Audio(listener);
     audioLoader.load('audio/91293__baefild__uncompressed-cannon_smaller.mp3',function(buffer){ //https://freesound.org/people/baefild/sounds/91293/
         cannonsound.setBuffer(buffer);
         cannonsound.setLoop(false);
@@ -122,7 +144,7 @@ function render(){
             //CannonballGameUpdate(b);//.GameUpdate();
         }
     }
-
+	//renderer.render(scene2,camera);
     renderer.render(scene,camera);
     setTimeout(function(){requestAnimationFrame(render);},1000.0/60);
 }
