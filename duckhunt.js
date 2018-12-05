@@ -42,6 +42,8 @@ window.onload = function init(){
     camera = new THREE.PerspectiveCamera(75, WIDTH/HEIGHT, 0.1, 1000);
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(WIDTH, HEIGHT);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     div.appendChild(renderer.domElement);
     camera.position.set(0,0,10);
     //camera.rotation.set(-Math.PI/12,0,0);
@@ -89,11 +91,27 @@ window.onload = function init(){
 	scene.add(meshBack);
 	
 	//Creating the planks for the cannon, and for the ducks to go across.
-	var row1 = plank(scene,[16,0.5,0],[0,3.8,-8],[1,1,1],"yellow-painted-wooden-wall.jpg");
-	var row2 = plank(scene,[16,0.5,0],[0,-0.3,-8],[1,1,1],"yellow-painted-wooden-wall.jpg");
+	var row1 = plank(scene,[16,0.5,0],[0,4.3,-9.3],[1,1,1],"yellow-painted-wooden-wall.jpg");
+	var row2 = plank(scene,[16,0.5,0],[0,-0.1,-9.3],[1,1,1],"yellow-painted-wooden-wall.jpg");
 	
 	var counter = plank(scene,[16,4,1],[0,-7,-5],[1,1,1],"red_wood.jpg");
 	var counterTop = plank(scene,[16,1,1],[0,-5,-5],[1,1,1],"wood.jpg");
+
+    var lantern = lanthern(scene,[4,-4,-5],[0.04,0.04,0.04],[0,0,0],0xFFFF00);
+
+
+    var light = new THREE.PointLight(0xFFFFFF,10,10);
+    light.position.set(0,0,-5);
+    light.castShadow = true;
+    light.shadow.mapSize.width = 512;
+    light.shadow.mapSize.height = 512;
+    light.shadow.camera.near = 0.1;
+    light.shadow.camera.far = 1000;
+    light.shadow.camera.lookAt(new THREE.Vector3(0,0,-10));
+    scene.add(light);
+
+    var helper = new THREE.CameraHelper(light.shadow.camera);
+    scene.add(helper);
 
     //initialization area
     var ball = cannonball(scene,[0,0.0,0], [0,0,-10]);
@@ -173,6 +191,8 @@ var cannonball = function(scene, direction, position) {
     var mat = new THREE.MeshBasicMaterial({color: 0x000000});
     var sph = new THREE.Mesh(geo, mat);
     sph.geometry.computeBoundingSphere();
+    sph.castShadow = true;
+    sph.receiveShadow = true;
 
     cb['geo'] = geo;
     cb['mat'] = mat;

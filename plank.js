@@ -13,6 +13,9 @@ function plank(scene, size, position, scale, texture){
 	var aplank = new THREE.Mesh(geometry,material);
 	aplank.position.set(position[0],position[1],position[2]);
 	aplank.scale.set(scale[0],scale[1],scale[2]);
+
+	//aplank.castShadow = true;
+	aplank.receiveShadow = true;
 	
 	scene.add(aplank);
 	
