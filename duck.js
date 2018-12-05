@@ -5,6 +5,7 @@ function duck(scene, position, direction, scale, rotate){
     var ducky = new THREE.Group();
     var geometry = new THREE.Geometry();
 
+
     //much of the following code is adapted from https://github.com/mrdoob/three.js/blob/master/examples/webgl_loader_obj_mtl.html
     //the point of obj.position.XYZ is expanded upon by us. Creating a holder json object is our work.
     new THREE.MTLLoader().load('models/10602_Rubber_Duck_v1_L3.mtl',function(materials){
@@ -33,17 +34,24 @@ function duck(scene, position, direction, scale, rotate){
     });
 
     ducky['direction'] = direction;
+    ducky['mposition'] = position;
+    ducky['mscale'] = scale;
 
     ducky['update'] = function(mduck){
         duckObj = mduck.getObjectByName( "position", true );
         if (mduck.position.x < 15.0 && mduck.position.x <= -15.0){
 
         }
-            mduck.position.x += direction[0];
-            mduck.position.y += direction[1];
-            mduck.position.z += direction[2];
+        mduck.position.x += direction[0];
+        mduck.position.y += direction[1];
+        mduck.position.z += direction[2];
 
-        };
+        mduck['mposition'][0] += direction[0];
+        mduck['mposition'][1] += direction[1];
+        mduck['mposition'][2] += direction[2];
+
+
+    };
 
     return ducky;
 }

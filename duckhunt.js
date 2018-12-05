@@ -28,6 +28,9 @@ var ducksound;
 var cannonballs = [];
 var cannonsound;
 
+var dlogoff = 0;
+
+var allStop = false;
 
 window.onload = function init(){
     //setup area
@@ -67,7 +70,7 @@ window.onload = function init(){
 
 
     //initialization area
-    var ball = cannonball(scene,[0,-0.02,0.01], [0,0,10]);
+    var ball = cannonball(scene,[0,0.0,0], [0,0,-10]);
     cannonballs.push(ball);
 
 	for (var i = 0; i<10; i++){
@@ -94,6 +97,7 @@ window.onload = function init(){
 
     document.getElementById("fire").onclick=function() {
         cannonsound.play();
+        allStop = !allStop;
     };
 
     scene.add(new THREE.AmbientLight(0xffffff,0.9));
@@ -104,17 +108,19 @@ window.onload = function init(){
 
 function render(){
 
-    for(var i=0; i<ducks.length; i++){
-        var d = ducks[i];
-        d['update'](d);
-    }
+    if(!allStop) {
+        for (var i = 0; i < ducks.length; i++) {
+            var d = ducks[i];
+            d['update'](d);
+        }
 
-    //console.log(cannonballs);
-    for(var i = 0; i<cannonballs.length; i++){
-        var b = cannonballs[i];
-        //console.log(b);
-        b['update'](b);
-        //CannonballGameUpdate(b);//.GameUpdate();
+        //console.log(cannonballs);
+        for (var i = 0; i < cannonballs.length; i++) {
+            var b = cannonballs[i];
+            //console.log(b);
+            b['update'](b);
+            //CannonballGameUpdate(b);//.GameUpdate();
+        }
     }
 
     renderer.render(scene,camera);
@@ -134,15 +140,16 @@ var cannonball = function(scene, direction, position) {
     var geo = new THREE.SphereGeometry(cb['radius'], 128, 128);
     var mat = new THREE.MeshBasicMaterial({color: 0x000000});
     var sph = new THREE.Mesh(geo, mat);
+    sph.geometry.computeBoundingSphere();
 
     cb['geo'] = geo;
     cb['mat'] = mat;
     cb['sph'] = sph;
 
 
-    sph.positionX = position[0];
-    sph.positionY = position[1];
-    sph.positionZ = position[2];
+    sph.position.x = position[0];
+    sph.position.y = position[1];
+    sph.position.z = position[2];
 
     scene.add(sph);
 
@@ -151,27 +158,45 @@ var cannonball = function(scene, direction, position) {
         ball['sph'].position.y += ball['direction'][1];
         ball['sph'].position.x += ball['direction'][0];
 
-        ball['position'][0] = ball['direction'][0];
-        ball['position'][1] = ball['direction'][1];
-        ball['position'][2] = ball['direction'][2];
+        ball['position'][0] += ball['direction'][0];
+        ball['position'][1] += ball['direction'][1];
+        ball['position'][2] += ball['direction'][2];
 
         var remove = null;
         for(var i = 0; i<ducks.length; i++){
             var d = ducks[i];
-            var dsphereRadius = d['bound'];
-            //console.log(dsphereRadius);
 
-            // if(Math.pow((ball['position'][0] - d['position'][0]),2) +
-            //     Math.pow((ball['position'][1] - d['position'][1]),2) +
-            //     Math.pow((ball['position'][2] - d['position'][2]),2)
-            //     <= Math.pow(dsphereRadius,2) + Math.pow(cb['radius'],2)){
-            //         remove = i;
-            //         break;
-            // }
+            try {
+                var dsphereRadius = d['bound'].radius * d['mscale'][0];
+                var bRadius = ball['sph'].geometry.boundingSphere.radius;
+                dlogoff +=1;
 
+                var distSquared =  Math.pow((ball['position'][0] - d['mposition'][0]),2) +
+                                   Math.pow((ball['position'][1] - d['mposition'][1]),2) +
+                                   Math.pow((ball['position'][2] - d['mposition'][2]),2);
+
+                // if(dlogoff % 10 === 0){
+                //     console.log(Math.pow(dsphereRadius + bRadius,2));
+                //     console.log(distSquared);
+                //     console.log(d['mposition']);
+                //     console.log(ball['sph'].position);
+                // }
+
+                if(distSquared <= Math.pow(dsphereRadius + cb['radius'],2)){
+                        console.log("Heyo, collision!");
+                        remove = i;
+                        break;
+                }
+
+
+            }catch(exception){
+                //do nothing
+            }
         }
         if(remove !== null){
-            ducks.splice(remove,1);
+            console.log("Gonna remove: "+remove);
+            var obj = ducks.splice(remove,1);
+            obj[0].position.x=-100000;
             ducksound.play();
         }
      };
