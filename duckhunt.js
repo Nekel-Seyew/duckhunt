@@ -21,7 +21,6 @@ var WIDTH = 512;
 
 
 //Duck Variables
-var ducky;
 var ducks = [];
 var ducksound;
 
@@ -33,6 +32,10 @@ var cannonsound;
 var dlogoff = 0;
 
 var allStop = false;
+
+
+var score = 0;
+var cannonballNums = 20;
 
 window.onload = function init(){
     //setup area
@@ -148,25 +151,33 @@ window.onload = function init(){
     });
 
     document.getElementById("fire").onclick=function() {
-        cannonsound.play();
-        var phi = acannon['direction'][0];
-        var theta = acannon['direction'][2];
-        var r = 1;
-        var z = -r * Math.sin(theta) * Math.cos(phi);
-        var y = r * Math.sin(theta) * Math.sin(phi);
-        var x = -r * Math.cos(theta);
+        if(cannonballNums > 0) {
+            cannonballNums -= 1;
+            cannonsound.play();
+            var phi = acannon['direction'][0];
+            var theta = acannon['direction'][2];
+            var r = 1;
+            var z = -r * Math.sin(theta) * Math.cos(phi);
+            var y = r * Math.sin(theta) * Math.sin(phi);
+            var x = -r * Math.cos(theta);
 
-        var pos = [acannon['mposition'][0],acannon['mposition'][1],acannon['mposition'][2]];
+            var outpoint = new THREE.Vector3(0, 1.5, -2);
+            var rot = new THREE.Euler(acannon.rotation.x, acannon.rotation.y, acannon.rotation.z, 'XYZ');
+            outpoint.applyEuler(rot);
+            var pos = [acannon['mposition'][0] + outpoint.x, acannon['mposition'][1] + outpoint.y, acannon['mposition'][2] + outpoint.z];
 
-        var ball = cannonball(scene,[x,y,z],pos);
+            //var pos = [acannon['mposition'][0],acannon['mposition'][1],acannon['mposition'][2]];
 
-        for(var i = 0; i< cannonballs.length; i++){
-            var b = cannonballs[i];
-            scene.remove(b);
+            var ball = cannonball(scene, [x, y, z], pos);
+
+            for (var i = 0; i < cannonballs.length; i++) {
+                var b = cannonballs[i];
+                scene.remove(b['sph']);
+            }
+
+            cannonballs = [];
+            cannonballs.push(ball);
         }
-
-        cannonballs = [];
-        cannonballs.push(ball);
 
     };
 
@@ -200,13 +211,17 @@ function render(){
         for (var i = 0; i < cannonballs.length; i++) {
             var b = cannonballs[i];
             //console.log(b);
-            b['update'](b,ducks);
+            b['update'](b,ducks,scene);
         }
     }
 	//renderer.render(scene2,camera);
     renderer.render(scene,camera);
     //controlls from Professor's Object Model viewer in lecture 11
     controls.update();
+
+    document.getElementById("score").innerHTML="Score: "+score;
+    document.getElementById("shots").innerHTML="Shots left: "+cannonballNums;
+
     setTimeout(function(){requestAnimationFrame(render);},1000.0/60);
 }
 

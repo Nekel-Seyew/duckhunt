@@ -1,3 +1,4 @@
+"use strict";
 function lanthern(scene, position, scale, rotate, color){
     new THREE.MTLLoader().load('models/lantern_obj.mtl',function(materials){
         materials.preload();

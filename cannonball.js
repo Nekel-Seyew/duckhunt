@@ -1,3 +1,4 @@
+"use strict";
 var cannonball = function(scene, direction, position) {
     var cb = {};
     cb['direction'] = normalize3(direction);
@@ -25,7 +26,7 @@ var cannonball = function(scene, direction, position) {
 
     scene.add(sph);
 
-    cb['update'] = function(ball,ducks){
+    cb['update'] = function(ball,ducks,scene){
         ball['sph'].position.z += ball['direction'][2];
         ball['sph'].position.y += ball['direction'][1] + ball['fall'];
         ball['sph'].position.x += ball['direction'][0];
@@ -70,8 +71,10 @@ var cannonball = function(scene, direction, position) {
         if(remove !== null){
             console.log("Gonna remove: "+remove);
             var obj = ducks.splice(remove,1);
-            obj[0].position.x=-100000;
+            //obj[0].position.x=-100000;
+            scene.remove(obj[0]);
             ducksound.play();
+            score += 1;
         }
     };
 

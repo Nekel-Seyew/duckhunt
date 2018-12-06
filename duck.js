@@ -1,3 +1,4 @@
+"use strict";
 var duckObj = null;
 
 //var ducky = new THREE.Group();

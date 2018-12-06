@@ -1,3 +1,4 @@
+"use strict";
 function plank(scene, size, position, scale, texture){
 	var aplank;
 	

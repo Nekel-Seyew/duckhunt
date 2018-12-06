@@ -1,4 +1,4 @@
-
+"use strict";
 function cannon(scene, position, direction, scale, rotate) {
     var cannon = new THREE.Group();
     var geometry = new THREE.Geometry();
