@@ -220,4 +220,9 @@ function onProgress(xhr){
     }
 }
 
+function normalize3(a){
+    var n = Math.sqrt(a[0]*a[0] + a[1]*a[1] + a[2]*a[2]);
+    return [a[0]/n, a[1]/n, a[2]/n];
+}
+
 

@@ -1,9 +1,10 @@
 var cannonball = function(scene, direction, position) {
     var cb = {};
-    cb['direction'] = direction;
+    cb['direction'] = normalize3(direction);
     cb['position'] = position;
+    cb['fall'] = 0;
 
-    cb['radius'] = 0.3;
+    cb['radius'] = 0.5;
 
     //create the model and stuff, and add it to scene.
     var geo = new THREE.SphereGeometry(cb['radius'], 128, 128);
@@ -26,8 +27,10 @@ var cannonball = function(scene, direction, position) {
 
     cb['update'] = function(ball,ducks){
         ball['sph'].position.z += ball['direction'][2];
-        ball['sph'].position.y += ball['direction'][1];
+        ball['sph'].position.y += ball['direction'][1] + ball['fall'];
         ball['sph'].position.x += ball['direction'][0];
+
+        ball['fall'] -= 0.025; //simulates gravity by making amount we fall per second increase
 
         ball['position'][0] += ball['direction'][0];
         ball['position'][1] += ball['direction'][1];
