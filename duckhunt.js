@@ -78,16 +78,16 @@ window.onload = function init(){
     //animate();
 
 
-    //button control area
-
-	//cube- Background Box or building?
+    
+//BOOTH
+	//cube- Back wall
 	var texture = new THREE.TextureLoader().load("wood.jpg");
 	var material = new THREE.MeshBasicMaterial({
 		map:texture,
 		side: THREE.DoubleSide,
 		depthTest:true});
 	
-	var geometry = new THREE.CubeGeometry(20,20,1);
+	var geometry = new THREE.CubeGeometry(20,25,1);
 	var meshBack = new THREE.Mesh(geometry,material);
 	meshBack.rotation.z = Math.PI;
 	meshBack.position.z = -13;
@@ -95,16 +95,59 @@ window.onload = function init(){
 	meshBack.receiveShadow = true;
 	scene.add(meshBack);
 	
-	//Creating the planks for the cannon, and for the ducks to go across.
-	var row1 = plank(scene,[16,0.5,0],[0,4.3,-12.3],[1,1,1],"yellow-painted-wooden-wall.jpg");
-	var row2 = plank(scene,[16,0.5,0],[0,-0.1,-12.3],[1,1,1],"yellow-painted-wooden-wall.jpg");
+	
+	//cube- left wall
+	var texture = new THREE.TextureLoader().load("wood.jpg");
+	var material = new THREE.MeshBasicMaterial({
+		map:texture,
+		side: THREE.DoubleSide,
+		depthTest:true});
+	
+	var geometry = new THREE.CubeGeometry(0.7,20,1);
+	var meshBack = new THREE.Mesh(geometry,material);
+	meshBack.rotation.z = -Math.PI;
+	meshBack.position.z = -11;
+	meshBack.position.x = -9;
+	meshBack.castShadow = true;
+	meshBack.receiveShadow = true;
+	scene.add(meshBack);
+	
+	//cube- right wall
+	var texture = new THREE.TextureLoader().load("wood.jpg");
+	var material = new THREE.MeshBasicMaterial({
+		map:texture,
+		side: THREE.DoubleSide,
+		depthTest:true});
+	
+	var geometry = new THREE.CubeGeometry(0.7,20,1);
+	var meshBack = new THREE.Mesh(geometry,material);
+	meshBack.rotation.z = -Math.PI;
+	meshBack.position.z = -11;
+	meshBack.position.x = 9;
+	meshBack.castShadow = true;
+	meshBack.receiveShadow = true;
+	scene.add(meshBack);
+	
+	
+	
+//Creating the planks for the cannon, and for the ducks to go across.
+	var row1 = plank(scene,[18,0.5,3],[0,4.5,-12.3],[1,1,1],"yellow-painted-wooden-wall.jpg");
+	var row2 = plank(scene,[18,0.5,3],[0,-0.1,-12.3],[1,1,1],"yellow-painted-wooden-wall.jpg");
 	
 	var counter = plank(scene,[16,4,1],[0,-7,-1],[1,1,1],"red_wood.jpg");
-	var counterTop = plank(scene,[16,1,1],[0,-5,-1],[1,1,1],"wood.jpg");
-
-    var lantern = lanthern(scene,[4,-4,-5],[0.04,0.04,0.04],[0,0,0],0xFFFF00);
-
-
+	var counterTop = plank(scene,[16,1,3],[0,-5,-1],[1,1,1],"wood.jpg");
+	var teddy = prize(scene,[-5,-4.5,-.5],[0.1,0.1,0.1],[-90,0,0.0]);
+    var lantern = lanthern(scene,[5,-4.5,-1.5],[0.04,0.04,0.04],[0,0,0],0xFFFF00);
+//Prizes on the top
+	var prize_row = plank(scene,[18,0.5,5],[0,10,-12.3],[1,1,1],"wood.jpg");
+	
+	for(var i = 0; i < 7; i ++){
+		var teddy = prize(scene,[(i+(i*.5)),10.3,-10],[0.1,0.1,0.1],[-90,0.0,0.0]);
+	}
+	for(var i = 1; i < 7; i ++){
+		var teddy = prize(scene,[(-i+(-i*.5)),10.3,-10],[0.1,0.1,0.1],[-90,0.0,0.0]);
+	}
+//Position light to match the lantern
     var light = new THREE.PointLight(0xFFFFFF,10,10);
     light.position.set(0,0,-5);
     light.castShadow = true;
@@ -115,7 +158,8 @@ window.onload = function init(){
     light.shadow.camera.lookAt(new THREE.Vector3(0,0,-10));
     scene.add(light);
 
-    var helper = new THREE.CameraHelper(light.shadow.camera);
+//camera Helper
+   var helper = new THREE.CameraHelper(light.shadow.camera);
     scene.add(helper);
 
     var acannon = cannon(scene,[0,-5,-1],[Math.PI,0,-Math.PI/2],[0.025,0.025,0.025],[-Math.PI/2,0,Math.PI/2]);
