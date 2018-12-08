@@ -10,6 +10,7 @@ var scene2;
 var camera;
 var renderer;
 var listener;
+var duckListener;
 var controls;
 
 var audioLoader;
@@ -54,6 +55,8 @@ window.onload = function init(){
     listener = new THREE.AudioListener();
     camera.add(listener);
     audioLoader = new THREE.AudioLoader();
+    duckListener = new THREE.AudioListener();
+    camera.add(duckListener);
 
     renderer.setClearColor(0xb2b2b2, 1);
 
@@ -154,8 +157,8 @@ window.onload = function init(){
         cannonsound.setVolume(0.5);
     });
 
-    ducksound = new THREE.Audio(listener);
-    audioLoader.load('audio/185550__crazyduckman__shocked-duck',function(buffer){ //https://freesound.org/people/crazyduckman/sounds/185550/
+    ducksound = new THREE.Audio(duckListener);
+    audioLoader.load('audio/185550__crazyduckman__shocked-duck.mp3',function(buffer){ //https://freesound.org/people/crazyduckman/sounds/185550/
         ducksound.setBuffer(buffer);
         ducksound.setLoop(false);
         ducksound.setVolume(0.5);
@@ -164,6 +167,9 @@ window.onload = function init(){
     document.getElementById("fire").onclick=function() {
         if(cannonballNums > 0) {
             cannonballNums -= 1;
+            if(cannonsound.isPlaying){
+                cannonsound.stop();
+            }
             cannonsound.play();
             var phi = acannon['direction'][0];
             var theta = acannon['direction'][2];
