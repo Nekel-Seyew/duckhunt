@@ -31,6 +31,8 @@ function duck(scene, position, direction, scale, rotate){
 
             obj.children[0].castShadow = true;
             obj.children[0].receiveShadow = true;
+            obj.castShadow = true;
+            obj.receiveShadow = true;
 
             ducky.add(obj);
 	        scene.add(ducky);
@@ -41,6 +43,9 @@ function duck(scene, position, direction, scale, rotate){
     ducky['direction'] = direction;
     ducky['mposition'] = position;
     ducky['mscale'] = scale;
+
+    ducky.receiveShadow = true;
+    ducky.castShadow = true;
 
     ducky['update'] = function(mduck){
         duckObj = mduck.getObjectByName( "position", true );

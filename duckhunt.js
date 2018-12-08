@@ -35,7 +35,7 @@ var allStop = false;
 
 
 var score = 0;
-var cannonballNums = 20;
+var cannonballNums = 30;
 
 window.onload = function init(){
     //setup area
@@ -59,30 +59,11 @@ window.onload = function init(){
 
     //controlls from Professor's Object Model viewer in lecture 11
     controls = new THREE.OrbitControls(camera, renderer.domElement);
-
-
-    // var geometry = new THREE.BoxGeometry(1,1,1);
-    // var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    // var cube = new THREE.Mesh(geometry,material);
-    // scene.add(cube);
-
-    // var animate=function(){
-    //     requestAnimationFrame(animate);
-    //
-    //     cube.rotation.x += 0.01;
-    //     cube.rotation.y += 0.01;
-    //
-    //     renderer.render(scene,camera);
-    // };
-
-    //animate();
-
-
     
 //BOOTH
 	//cube- Back wall
 	var texture = new THREE.TextureLoader().load("wood.jpg");
-	var material = new THREE.MeshBasicMaterial({
+	var material = new THREE.MeshLambertMaterial({
 		map:texture,
 		side: THREE.DoubleSide,
 		depthTest:true});
@@ -91,7 +72,7 @@ window.onload = function init(){
 	var meshBack = new THREE.Mesh(geometry,material);
 	meshBack.rotation.z = Math.PI;
 	meshBack.position.z = -13;
-	meshBack.castShadow = true;
+	//meshBack.castShadow = true;
 	meshBack.receiveShadow = true;
 	scene.add(meshBack);
 	
@@ -108,7 +89,7 @@ window.onload = function init(){
 	meshBack.rotation.z = -Math.PI;
 	meshBack.position.z = -11;
 	meshBack.position.x = -9;
-	meshBack.castShadow = true;
+	//meshBack.castShadow = true;
 	meshBack.receiveShadow = true;
 	scene.add(meshBack);
 	
@@ -124,7 +105,7 @@ window.onload = function init(){
 	meshBack.rotation.z = -Math.PI;
 	meshBack.position.z = -11;
 	meshBack.position.x = 9;
-	meshBack.castShadow = true;
+	//meshBack.castShadow = true;
 	meshBack.receiveShadow = true;
 	scene.add(meshBack);
 	
@@ -137,7 +118,7 @@ window.onload = function init(){
 	var counter = plank(scene,[16,4,1],[0,-7,-1],[1,1,1],"red_wood.jpg");
 	var counterTop = plank(scene,[16,1,3],[0,-5,-1],[1,1,1],"wood.jpg");
 	var teddy = prize(scene,[-5,-4.5,-.5],[0.1,0.1,0.1],[-90,0,0.0]);
-    var lantern = lanthern(scene,[5,-4.5,-1.5],[0.04,0.04,0.04],[0,0,0],0xFFFF00);
+    var lantern = lanthern(scene,[5,-10,-5],[0.75,0.75,0.75],[0,0,0],0xFFFF00);
 //Prizes on the top
 	var prize_row = plank(scene,[18,0.5,5],[0,10,-12.3],[1,1,1],"wood.jpg");
 	
@@ -147,20 +128,6 @@ window.onload = function init(){
 	for(var i = 1; i < 7; i ++){
 		var teddy = prize(scene,[(-i+(-i*.5)),10.3,-10],[0.1,0.1,0.1],[-90,0.0,0.0]);
 	}
-//Position light to match the lantern
-    var light = new THREE.PointLight(0xFFFFFF,10,10);
-    light.position.set(0,0,-5);
-    light.castShadow = true;
-    light.shadow.mapSize.width = 512;
-    light.shadow.mapSize.height = 512;
-    light.shadow.camera.near = 0.1;
-    light.shadow.camera.far = 1000;
-    light.shadow.camera.lookAt(new THREE.Vector3(0,0,-10));
-    scene.add(light);
-
-//camera Helper
-   var helper = new THREE.CameraHelper(light.shadow.camera);
-    scene.add(helper);
 
     var acannon = cannon(scene,[0,-5,-1],[Math.PI,0,-Math.PI/2],[0.025,0.025,0.025],[-Math.PI/2,0,Math.PI/2]);
 
@@ -221,6 +188,7 @@ window.onload = function init(){
 
             cannonballs = [];
             cannonballs.push(ball);
+
         }
 
     };
@@ -236,6 +204,9 @@ window.onload = function init(){
     };
     document.getElementById("move-down").onclick=function() {
         acannon['rotate-down'](acannon);
+    };
+    document.getElementById('light').onclick=function(){
+        lantern['toggle'](lantern);
     };
 
     scene.add(new THREE.AmbientLight(0xffffff,0.9));
