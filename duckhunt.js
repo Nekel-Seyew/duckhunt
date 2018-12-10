@@ -139,11 +139,11 @@ window.onload = function init(){
     cannonballs.push(ball);
 	//rows of ducks
 	for (var i = 0; i<10; i++){
-    		var aduck = duck(scene,[(i*(-2.5))-15.0,5.0,-11.7],[0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,Math.PI/2]);
+    		var aduck = duck(scene,[(i*(-2.5))-8.0,5.0,-11.7],[0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,Math.PI/2],7*2.5+0);
 	    	ducks.push(aduck);
 	}
 	for (var i = 0; i<10; i++){
-    		var aduck = duck(scene,[(i*(2.5))+15.0,0,-11.7],[-0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,-Math.PI/2]);
+    		var aduck = duck(scene,[(i*(2.5))+8.0,0,-11.7],[-0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,-Math.PI/2],7*2.5+0);
 	    	ducks.push(aduck);
 	}
 	
@@ -220,13 +220,14 @@ window.onload = function init(){
     render();
 
 };
-
+var logUpdate = 0;
 function render(){
-
+    
     if(!allStop) {
         for (var i = 0; i < ducks.length; i++) {
             var d = ducks[i];
-            d['update'](d);
+            d['update'](d); 
+            //if(logUpdate%100 == 0) console.log("Duck "+i+" position "+d['mposition']); 
         }
 
         for (var i = 0; i < cannonballs.length; i++) {
@@ -242,7 +243,7 @@ function render(){
 
     document.getElementById("score").innerHTML="Score: "+score;
     document.getElementById("shots").innerHTML="Shots left: "+cannonballNums;
-
+    logUpdate += 1;
     setTimeout(function(){requestAnimationFrame(render);},1000.0/60);
 }
 

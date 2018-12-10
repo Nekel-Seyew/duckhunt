@@ -2,7 +2,7 @@
 var duckObj = null;
 
 //var ducky = new THREE.Group();
-function duck(scene, position, direction, scale, rotate){
+function duck(scene, position, direction, scale, rotate, length){
     var ducky = new THREE.Group();
     var geometry = new THREE.Geometry();
 
@@ -26,7 +26,7 @@ function duck(scene, position, direction, scale, rotate){
             obj.rotation.z = rotate[2];
 
             obj.children[0].geometry.computeBoundingSphere();
-	        ducky['bound'] = obj.children[0].geometry.boundingSphere;
+	    ducky['bound'] = obj.children[0].geometry.boundingSphere;
 
 
             obj.children[0].castShadow = true;
@@ -35,23 +35,51 @@ function duck(scene, position, direction, scale, rotate){
             obj.receiveShadow = true;
 
             ducky.add(obj);
-	        scene.add(ducky);
+	    scene.add(ducky);
 
         },onProgress,function(){});
     });
 
     ducky['direction'] = direction;
     ducky['mposition'] = position;
+    ducky['origX'] = position[0];
     ducky['mscale'] = scale;
+    
+    ducky['visible'] = false;
 
     ducky.receiveShadow = true;
     ducky.castShadow = true;
 
     ducky['update'] = function(mduck){
-        duckObj = mduck.getObjectByName( "position", true );
-        if (mduck.position.x < 15.0 && mduck.position.x <= -15.0){
+        if (direction[0] > 0){
+		//console.log(mduck.position)
+	        if (mduck['mposition'][0] >= -8.0 && mduck['mposition'][0] <= 8.0){
+	     		mduck.visible = true;
+		} else if(mduck['mposition'][0] >= -8.0){
+			console.log("out of bounds");
+			mduck.visible = false;
+				
+			if(mduck['mposition'][0] >= 8.0){
+				mduck['mposition'][0] = 0-length;
+				mduck.position.x = -length-mduck['origX'];
+			}
+		}
+        } else {
+		//console.log(mduck.position)
+	        if (mduck['mposition'][0] <= 8.0 && mduck['mposition'][0] >= -8.0){
+	     		mduck.visible = true;
+		} else if(mduck['mposition'][0] <= -8.0){
+			console.log("out of bounds");
+			mduck.visible = false;
+			
+			if(mduck['mposition'][0] <= -8.0){
+				mduck['mposition'][0] = 0+length;
+				mduck.position.x = length-mduck['origX'];
+			}
+		}
+	}
 
-        }
+
         mduck.position.x += direction[0];
         mduck.position.y += direction[1];
         mduck.position.z += direction[2];
