@@ -9,10 +9,6 @@ function cannon(scene, position, direction, scale, rotate) {
     new THREE.MTLLoader().load('models/14054_Pirate_Ship_Cannon_on_Cart_v1_l3.mtl', function (materials) {
         materials.preload();
         new THREE.OBJLoader().setMaterials(materials).load('models/14054_Pirate_Ship_Cannon_on_Cart_v1_l3.obj', function (obj) {
-// console.log(obj);
-//             obj.position.x = position[0];
-//             obj.position.y = position[1];
-//             obj.position.z = position[2];
             obj.position.x = 0;
             obj.position.y = 0;
             obj.position.z = 0;
@@ -24,10 +20,6 @@ function cannon(scene, position, direction, scale, rotate) {
             obj.rotation.x = rotate[0];
             obj.rotation.y = rotate[1];
             obj.rotation.z = rotate[2];
-
-            //obj.children[0].geometry.computeBoundingSphere();
-            //cannon['bound'] = obj.children[0].geometry.boundingSphere;
-
 
             obj.children[0].castShadow = true;
             obj.children[0].receiveShadow = true;
