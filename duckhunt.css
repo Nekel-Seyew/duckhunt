@@ -1,0 +1,32 @@
+#cannonControl{
+	background-color: #dd0000;
+	text-align:center;
+	color:white
+}
+#fire{
+	color:red
+}
+
+#gameControl{
+	background-color: #b2e057;
+	text-align:center
+}
+
+.text_info{
+	font-size:20px;
+}
+
+.win_info{
+	font-size:40px;
+	color: red;
+	text-decoration:underline;
+	text-transform: capitalize;
+}
+
+.lose_info{
+	font-size:40px;
+	color: blue;
+	text-decoration:underline;
+	text-transform: capitalize;
+}
+
