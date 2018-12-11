@@ -52,11 +52,11 @@ function duck(scene, position, direction, scale, rotate, length){
 
     ducky['update'] = function(mduck){
         if (direction[0] > 0){
-		//console.log(mduck.position)
+
 	        if (mduck['mposition'][0] >= -8.0 && mduck['mposition'][0] <= 8.0){
 	     		mduck.visible = true;
 		} else if(mduck['mposition'][0] >= -8.0){
-			console.log("out of bounds");
+			//console.log("out of bounds");
 			mduck.visible = false;
 				
 			if(mduck['mposition'][0] >= 8.0){
@@ -69,7 +69,7 @@ function duck(scene, position, direction, scale, rotate, length){
 	        if (mduck['mposition'][0] <= 8.0 && mduck['mposition'][0] >= -8.0){
 	     		mduck.visible = true;
 		} else if(mduck['mposition'][0] <= -8.0){
-			console.log("out of bounds");
+			//console.log("out of bounds");
 			mduck.visible = false;
 			
 			if(mduck['mposition'][0] <= -8.0){

@@ -63,7 +63,7 @@ window.onload = function init(){
     //controlls from Professor's Object Model viewer in lecture 11
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     
-//BOOTH
+//BOOTH----------------------------------
 	//cube- Back wall
 	var texture = new THREE.TextureLoader().load("wood.jpg");
 	var material = new THREE.MeshLambertMaterial({
@@ -120,9 +120,10 @@ window.onload = function init(){
 	
 	var counter = plank(scene,[16,4,1],[0,-7,-1],[1,1,1],"red_wood.jpg");
 	var counterTop = plank(scene,[16,1,3],[0,-5,-1],[1,1,1],"wood.jpg");
-	var teddy = prize(scene,[-5,-4.5,-.5],[0.1,0.1,0.1],[-90,0,0.0]);
+//creation of light source	
     var lantern = lanthern(scene,[5,-10,-5],[0.75,0.75,0.75],[0,0,0],0xFFFF00);
 //Prizes on the top
+	var teddy = prize(scene,[-5,-4.5,-.5],[0.1,0.1,0.1],[-90,0,0.0]);
 	var prize_row = plank(scene,[18,0.5,5],[0,10,-12.3],[1,1,1],"wood.jpg");
 	
 	for(var i = 0; i < 7; i ++){
@@ -131,13 +132,14 @@ window.onload = function init(){
 	for(var i = 1; i < 7; i ++){
 		var teddy = prize(scene,[(-i+(-i*.5)),10.3,-10],[0.1,0.1,0.1],[-90,0.0,0.0]);
 	}
-
+//creation of cannon object
     var acannon = cannon(scene,[0,-5,-1],[Math.PI,0,-Math.PI/2],[0.025,0.025,0.025],[-Math.PI/2,0,Math.PI/2]);
 
-    //initialization area
+ //initialization area for cannon balls
     var ball = cannonball(scene,[0,0.0,0], [0,0,-10]);
     cannonballs.push(ball);
-	//rows of ducks
+
+//rows of ducks
 	for (var i = 0; i<10; i++){
     		var aduck = duck(scene,[(i*(-2.5))-8.0,5.0,-11.7],[0.1,0,0],[0.25,0.25,0.25],[-Math.PI/2,0,Math.PI/2],7*2.5+0);
 	    	ducks.push(aduck);
@@ -156,14 +158,14 @@ window.onload = function init(){
         cannonsound.setLoop(false);
         cannonsound.setVolume(0.5);
     });
-
+//duck sound
     ducksound = new THREE.Audio(duckListener);
     audioLoader.load('audio/185550__crazyduckman__shocked-duck.mp3',function(buffer){ //https://freesound.org/people/crazyduckman/sounds/185550/
         ducksound.setBuffer(buffer);
         ducksound.setLoop(false);
         ducksound.setVolume(0.5);
     });
-
+//BUTTON Controls
     document.getElementById("fire").onclick=function() {
         if(cannonballNums > 0) {
             cannonballNums -= 1;
@@ -182,8 +184,6 @@ window.onload = function init(){
             var rot = new THREE.Euler(acannon.rotation.x, acannon.rotation.y, acannon.rotation.z, 'XYZ');
             outpoint.applyEuler(rot);
             var pos = [acannon['mposition'][0] + outpoint.x, acannon['mposition'][1] + outpoint.y, acannon['mposition'][2] + outpoint.z];
-
-            //var pos = [acannon['mposition'][0],acannon['mposition'][1],acannon['mposition'][2]];
 
             var ball = cannonball(scene, [x, y, z], pos);
 
@@ -214,20 +214,47 @@ window.onload = function init(){
     document.getElementById('light').onclick=function(){
         lantern['toggle'](lantern);
     };
-
+	document.getElementById('decDif').onclick=function(){
+		for(var i =0; i< ducks.length;i++){
+			var d = ducks[i];
+			if(d['direction'][0] < 0){
+				document.getElementById('decDif').readOnly=false;
+				d['direction'][0] += 0.05;
+			}else if(d['direction'][0] > 0){
+				document.getElementById('decDif').readOnly=false;
+				d['direction'][0] -= 0.05;
+			}else if(d['direction'][0]==0){
+				document.getElementById('decDif').readOnly=true;
+			}
+		}
+	};
+	
+	document.getElementById('incDif').onclick=function(){
+		document.getElementById('decDif').readOnly=false;
+		for(var i =0; i< ducks.length;i++){
+			var d = ducks[i];
+			if(d['direction'][0] <= 0){
+				d['direction'][0] -= 0.05;
+			}else if(d['direction'][0] > 0){
+				
+				d['direction'][0] += 0.05;
+			}
+		}
+	};
+//adding ambient light
     scene.add(new THREE.AmbientLight(0xffffff,0.9));
 
     render();
 
 };
-var logUpdate = 0;
+
 function render(){
     
     if(!allStop) {
         for (var i = 0; i < ducks.length; i++) {
             var d = ducks[i];
             d['update'](d); 
-            //if(logUpdate%100 == 0) console.log("Duck "+i+" position "+d['mposition']); 
+           
         }
 
         for (var i = 0; i < cannonballs.length; i++) {
@@ -240,10 +267,20 @@ function render(){
     renderer.render(scene,camera);
     //controlls from Professor's Object Model viewer in lecture 11
     controls.update();
-
-    document.getElementById("score").innerHTML="Score: "+score;
-    document.getElementById("shots").innerHTML="Shots left: "+cannonballNums;
-    logUpdate += 1;
+	//win condition
+	if(ducks.length ==0 ){
+		document.getElementById("win").innerHTML= "You Win! Take a Prize!";
+		document.getElementById("score").innerHTML="";
+		document.getElementById("shots").innerHTML="";
+		
+	}else if(cannonballNums == 0 ){
+		document.getElementById("lose").innerHTML= "You lose! Try Again!";
+		document.getElementById("score").innerHTML="Score: "+score;
+		document.getElementById("shots").innerHTML="";
+	}else{
+		document.getElementById("score").innerHTML="Score: "+score;
+		document.getElementById("shots").innerHTML="Shots left: "+cannonballNums;
+	}
     setTimeout(function(){requestAnimationFrame(render);},1000.0/60);
 }
 
@@ -253,7 +290,7 @@ function render(){
 function onProgress(xhr){
     if ( xhr.lengthComputable ) {
         var percentComplete = xhr.loaded / xhr.total * 100;
-        console.log( Math.round( percentComplete, 2 ) + '% downloaded' );
+       // console.log( Math.round( percentComplete, 2 ) + '% downloaded' );
     }
 }
 
