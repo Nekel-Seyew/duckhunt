@@ -16,6 +16,7 @@
     <script type="text/javascript" src="js/MTLLoader.js"></script>
     <script type="text/javascript" src="js/OBJLoader.js"></script>
     <script type="text/javascript" src="js/OrbitControls.js"></script>
+	<link rel ="stylesheet" href ="duckhunt.css">
 </head>
 <body>
 
@@ -27,18 +28,22 @@
     <button id="move-up">Up</button>
     <button id="move-down">Down</button>
     <p></p>
-    <div width="100%">
+    <div  class ="text_info" width="100%">
         Cannon Controls
     </div>
 </div>
 <div id="gameControl" style="border-style: solid; width: 512px;">
-    <div id="score">Score: </div><div id="shots">Shots left: </div>
+    <div class="win_info" id="win"></div>
+	<div class="lose_info" id="lose"></div>
+	<div class="text_info" id="score">Score: </div><div class="text_info" id="shots">Shots left: </div>
     <p></p>
     <button id="decDif">Decrease Difficulty</button>
     <button id="incDif">Increase Difficulty</button>
-    <button id="light">ToggleLight</button>
+	<p></p>
+    <button id="light">ToggleLight</button> 
+
     <p></p>
-    <div>
+    <div class ="text_info">
         Game Controls
     </div>
 </div>

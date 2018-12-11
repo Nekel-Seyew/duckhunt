@@ -43,35 +43,26 @@ var cannonball = function(scene, direction, position) {
 
             try {
                 var dsphereRadius = d['bound'].radius * (d['mscale'][0]*1.2);
-                //var bRadius = ball['sph'].geometry.boundingSphere.radius;
+               
                 dlogoff +=1;
 
                 var distSquared =  Math.pow((ball['position'][0] - d['mposition'][0]),2) +
                     Math.pow((ball['position'][1] - d['mposition'][1]+(0.4*d['mscale'][1])),2) + //corrective measure to lift up the hit sphere a bit
                     Math.pow((ball['position'][2] - d['mposition'][2]),2);
-
-                // if(dlogoff % 10 === 0){
-                //     console.log(Math.pow(dsphereRadius + bRadius,2));
-                //     console.log(distSquared);
-                //     console.log(d['mposition']);
-                //     console.log(ball['sph'].position);
-                // }
-
+               
                 if(distSquared <= Math.pow(dsphereRadius + cb['radius'],2)){
-                    console.log("Heyo, collision!");
+                  //  console.log("Heyo, collision!");
                     remove = i;
                     break;
                 }
-
 
             }catch(exception){
                 //do nothing
             }
         }
         if(remove !== null){
-            console.log("Gonna remove: "+remove);
+          //  console.log("Gonna remove: "+remove);
             var obj = ducks.splice(remove,1);
-            //obj[0].position.x=-100000;
             scene.remove(obj[0]);
             if(ducksound.isPlaying){
                 ducksound.stop();
