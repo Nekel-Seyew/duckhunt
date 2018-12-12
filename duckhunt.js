@@ -17,8 +17,8 @@ var audioLoader;
 
 
 var div; //if in the HTML the div's height or width change, update the values to here
-var HEIGHT = 512;
-var WIDTH = 512;
+var HEIGHT = 750;
+var WIDTH = 750;
 
 
 //Duck Variables

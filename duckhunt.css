@@ -1,32 +1,58 @@
 #cannonControl{
 	background-color: #dd0000;
 	text-align:center;
-	color:white
+	color:white;
+	
 }
 #fire{
-	color:red
+	color:red;
+	line-height: 30px;
+	width: 175px
 }
 
 #gameControl{
 	background-color: #b2e057;
-	text-align:center
+	text-align:center;
+	float:left
+}
+#score{
+	float:left;
+	font-size:50px;
 }
 
+#shots{
+	float:right;
+	font-size:50px;
+}
+#gameArea{
+	margin:auto;
+	width: 70%;
+	float:right
+	
+}
 .text_info{
-	font-size:20px;
+	font-size:19px;
 }
-
 .win_info{
-	font-size:40px;
+	font-size:60px;
 	color: red;
 	text-decoration:underline;
 	text-transform: capitalize;
 }
 
 .lose_info{
-	font-size:40px;
+	font-size:60px;
 	color: blue;
 	text-decoration:underline;
 	text-transform: capitalize;
 }
-
+.button{
+	color:black;
+	line-height: 30px;
+	width: 100px
+}
+.button_diff{
+	color:black;
+	line-height: 50px;
+	margin-top:20px;
+}

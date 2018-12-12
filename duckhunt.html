@@ -19,32 +19,52 @@
 	<link rel ="stylesheet" href ="duckhunt.css">
 </head>
 <body>
-
-<div id="renderarea" height="512" width="512"></div>
-<div id="cannonControl" style="border-style: solid; width: 512px;">
-    <button id="move-left">Left</button>
-    <button id="move-right">Right</button>
+<div id= "gameArea" width ="750">
+<div id="renderarea" height="750" width="750"></div>
+<div id="cannonControl" style="border-style: solid; width: 750px;">
+    <button class ="button" id="move-left">Left</button>
+    <button class ="button" id="move-right">Right</button>
     <button id="fire">FIRE!</button>
-    <button id="move-up">Up</button>
-    <button id="move-down">Down</button>
+    <button class ="button" id="move-up">Up</button>
+    <button class ="button" id="move-down">Down</button>
     <p></p>
     <div  class ="text_info" width="100%">
         Cannon Controls
     </div>
 </div>
-<div id="gameControl" style="border-style: solid; width: 512px;">
+</div>
+<div id="gameControl" style="border-style: solid; width: 500px; height:750px">
     <div class="win_info" id="win"></div>
 	<div class="lose_info" id="lose"></div>
 	<div class="text_info" id="score">Score: </div><div class="text_info" id="shots">Shots left: </div>
-    <p></p>
-    <button id="decDif">Decrease Difficulty</button>
-    <button id="incDif">Increase Difficulty</button>
-	<p></p>
-    <button id="light">ToggleLight</button> 
+    <br>
+	<br>
+    <button class ="button_diff" id="decDif">Decrease Difficulty</button>
+    <button class ="button_diff"id="incDif">Increase Difficulty</button>
+	
+    <button class ="button_diff" id="light">ToggleLight</button> 
 
     <p></p>
     <div class ="text_info">
-        Game Controls
+        <h1>Game Controls</h1>
+		To play the game you must use the buttons below the game screen to direct the cannon.
+		<br>
+		<br> The cannon can move left, right, up or down using the buttons. 
+		<br>
+		<br>When you are ready to shoot a cannon ball hit the FIRE! button. 
+		<br>
+		<br>
+		To win you must hit all 20 of the ducks down with your 30 cannon balls!
+		<br>
+		<br> To increase or decrease the difficulty of the game, click the increase or decrease difficulty buttons. 
+		<br>
+		Doing this will speed up or slow down the ducks. 
+		<br>
+		<br> If you want to change the lighting click the toggle light button above!
+		
+		
+		<h1>Have fun and keep playing until you win! </h1>
+		
     </div>
 </div>
 
