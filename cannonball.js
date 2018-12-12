@@ -31,11 +31,11 @@ var cannonball = function(scene, direction, position) {
         ball['sph'].position.y += ball['direction'][1] + ball['fall'];
         ball['sph'].position.x += ball['direction'][0];
 
-        ball['fall'] -= 0.025; //simulates gravity by making amount we fall per second increase
-
         ball['position'][0] += ball['direction'][0];
-        ball['position'][1] += ball['direction'][1];
+        ball['position'][1] += ball['direction'][1] + ball['fall'];
         ball['position'][2] += ball['direction'][2];
+
+        ball['fall'] -= 0.025;//simulates gravity by making amount we fall per second increase
 
         var remove = null;
         for(var i = 0; i<ducks.length; i++){
@@ -49,7 +49,7 @@ var cannonball = function(scene, direction, position) {
                 //if(ball['position'][1]+ball['radius']+1 < d['mposition'][1]) continue;
 
                 var distSquared =  Math.pow((ball['position'][0] - d['mposition'][0]),2) +
-                    Math.pow((ball['position'][1] - (d['mposition'][1]+(0.4*d['mscale'][1]))),2) + //corrective measure to lift up the hit sphere a bit
+                    Math.pow((ball['position'][1] - (d['mposition'][1]+(1*d['mscale'][1]))),2) + //corrective measure to lift up the hit sphere a bit
                     Math.pow((ball['position'][2] - d['mposition'][2]),2);
 
                 if(distSquared <= Math.pow(dsphereRadius + ball['radius'],2)){
