@@ -45,7 +45,6 @@ var cannonball = function(scene, direction, position) {
                 var dsphereRadius = d['bound'].radius * (d['mscale'][0]*1.2);
                 dlogoff +=1;
 
-
                 //if(ball['position'][1]+ball['radius']+1 < d['mposition'][1]) continue;
 
                 var distSquared =  Math.pow((ball['position'][0] - d['mposition'][0]),2) +
@@ -53,7 +52,7 @@ var cannonball = function(scene, direction, position) {
                     Math.pow((ball['position'][2] - d['mposition'][2]),2);
 
                 if(distSquared <= Math.pow(dsphereRadius + ball['radius'],2)){
-                    console.log("Heyo, collision!");
+                   // console.log("Heyo, collision!");
                     remove = i;
                     break;
                 }
@@ -63,7 +62,7 @@ var cannonball = function(scene, direction, position) {
             }
         }
         if(remove !== null){
-            console.log("Gonna remove: "+remove);
+           // console.log("Gonna remove: "+remove);
             var obj = ducks.splice(remove,1);
             //obj[0].position.x=-100000;
             scene.remove(obj[0]);

@@ -217,25 +217,32 @@ window.onload = function init(){
 	document.getElementById('decDif').onclick=function(){
 		for(var i =0; i< ducks.length;i++){
 			var d = ducks[i];
-			if(d['direction'][0] < 0){
-				document.getElementById('decDif').readOnly=false;
+			
+			if(d['direction'][0] < 0.0){
+				document.getElementById('decDif').disabled=false;
 				d['direction'][0] += 0.05;
-			}else if(d['direction'][0] > 0){
-				document.getElementById('decDif').readOnly=false;
+			}else if(d['direction'][0] > 0.0){
+				document.getElementById('decDif').disabled=false;
 				d['direction'][0] -= 0.05;
-			}else if(d['direction'][0]==0){
-				document.getElementById('decDif').readOnly=true;
+			}//else if(d['direction'][0]==0){
+			 else{	
+				document.getElementById('decDif').disabled=true;
+				document.getElementById('decDif').readonly=true;
+				d['direction'][0] = 0.0;
 			}
+			
 		}
 	};
 	
 	document.getElementById('incDif').onclick=function(){
-		document.getElementById('decDif').readOnly=false;
+		document.getElementById('decDif').disabled=false;
+		
 		for(var i =0; i< ducks.length;i++){
 			var d = ducks[i];
-			if(d['direction'][0] <= 0){
+			
+			if(d['mposition'][1] == 0){
 				d['direction'][0] -= 0.05;
-			}else if(d['direction'][0] > 0){
+			}else if(d['mposition'][1] == 5){
 				
 				d['direction'][0] += 0.05;
 			}
@@ -275,7 +282,7 @@ function render(){
 		
 	}else if(cannonballNums == 0 ){
 		document.getElementById("lose").innerHTML= "You lose! Try Again!";
-		document.getElementById("score").innerHTML="Score: "+score;
+		document.getElementById("score").innerHTML="";
 		document.getElementById("shots").innerHTML="";
 	}else{
 		document.getElementById("score").innerHTML="Score: "+score;

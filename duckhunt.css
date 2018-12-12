@@ -17,12 +17,12 @@
 }
 #score{
 	float:left;
-	font-size:50px;
+	font-size:30px;
 }
 
 #shots{
 	float:right;
-	font-size:50px;
+	font-size:30px;
 }
 #gameArea{
 	margin:auto;
@@ -31,17 +31,17 @@
 	
 }
 .text_info{
-	font-size:19px;
+	font-size:16px;
 }
 .win_info{
-	font-size:60px;
+	font-size:40px;
 	color: red;
 	text-decoration:underline;
 	text-transform: capitalize;
 }
 
 .lose_info{
-	font-size:60px;
+	font-size:40px;
 	color: blue;
 	text-decoration:underline;
 	text-transform: capitalize;
@@ -53,6 +53,6 @@
 }
 .button_diff{
 	color:black;
-	line-height: 50px;
+	line-height: 30px;
 	margin-top:20px;
 }
