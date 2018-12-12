@@ -45,11 +45,14 @@ var cannonball = function(scene, direction, position) {
                 var dsphereRadius = d['bound'].radius * (d['mscale'][0]*1.2);
                 dlogoff +=1;
 
+
+                //if(ball['position'][1]+ball['radius']+1 < d['mposition'][1]) continue;
+
                 var distSquared =  Math.pow((ball['position'][0] - d['mposition'][0]),2) +
-                    Math.pow((ball['position'][1] - d['mposition'][1]+(0.4*d['mscale'][1])),2) + //corrective measure to lift up the hit sphere a bit
+                    Math.pow((ball['position'][1] - (d['mposition'][1]+(0.4*d['mscale'][1]))),2) + //corrective measure to lift up the hit sphere a bit
                     Math.pow((ball['position'][2] - d['mposition'][2]),2);
 
-                if(distSquared <= Math.pow(dsphereRadius + cb['radius'],2)){
+                if(distSquared <= Math.pow(dsphereRadius + ball['radius'],2)){
                     console.log("Heyo, collision!");
                     remove = i;
                     break;

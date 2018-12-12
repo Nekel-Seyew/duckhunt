@@ -26,7 +26,7 @@ function duck(scene, position, direction, scale, rotate, length){
             obj.rotation.z = rotate[2];
 
             obj.children[0].geometry.computeBoundingSphere();
-	    ducky['bound'] = obj.children[0].geometry.boundingSphere;
+	        ducky['bound'] = obj.children[0].geometry.boundingSphere;
 
 
             obj.children[0].castShadow = true;

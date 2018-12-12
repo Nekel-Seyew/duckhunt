@@ -41,23 +41,23 @@ function cannon(scene, position, direction, scale, rotate) {
 
     cannon['rotate-right'] = function(mcannon){
         var ammount = (5 * Math.PI/180.0);
-        mcannon.rotation.y = mcannon.rotation.y - ammount >= -Math.PI/4 ? mcannon.rotation.y - ammount : -Math.PI/4;
-        mcannon['direction'][2] -= ammount;
+        mcannon.rotation.y = mcannon.rotation.y - ammount >= -Math.PI/3 ? mcannon.rotation.y - ammount : -Math.PI/3;
+        if(mcannon.rotation.y - ammount >= -Math.PI/3) mcannon['direction'][2] -= ammount;
     };
     cannon['rotate-left'] = function(mcannon){
         var ammount = (5 * Math.PI/180.0);
-        mcannon.rotation.y = mcannon.rotation.y + ammount <= Math.PI/4 ? mcannon.rotation.y + ammount : Math.PI/4;
-        mcannon['direction'][2] += ammount;
+        mcannon.rotation.y = mcannon.rotation.y + ammount <= Math.PI/3 ? mcannon.rotation.y + ammount : Math.PI/3;
+        if(mcannon.rotation.y + ammount <= Math.PI/3) mcannon['direction'][2] += ammount;
     };
     cannon['rotate-up'] = function(mcannon){
         var ammount = (5 * Math.PI/180.0);
-        mcannon.rotation.x = mcannon.rotation.x + ammount <= Math.PI/4 ? mcannon.rotation.x + ammount : Math.PI/4;
-        mcannon['direction'][0] += ammount;
+        mcannon.rotation.x = mcannon.rotation.x + ammount <= Math.PI/3 ? mcannon.rotation.x + ammount : Math.PI/3;
+        if(mcannon.rotation.x + ammount <= Math.PI/3) mcannon['direction'][0] += ammount;
     };
     cannon['rotate-down'] = function(mcannon){
         var ammount = (5 * Math.PI/180.0);
-        mcannon.rotation.x = mcannon.rotation.x - ammount >= -Math.PI/4 ? mcannon.rotation.x - ammount : -Math.PI/4;
-        mcannon['direction'][0] -= ammount;
+        mcannon.rotation.x = mcannon.rotation.x - ammount >= -Math.PI/3 ? mcannon.rotation.x - ammount : -Math.PI/3;
+        if(mcannon.rotation.x - ammount >= -Math.PI/3) mcannon['direction'][0] -= ammount;
     };
 
     return cannon;
