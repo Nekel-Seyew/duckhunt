@@ -279,11 +279,13 @@ function render(){
 		document.getElementById("win").innerHTML= "You Win! Take a Prize!";
 		document.getElementById("score").innerHTML="";
 		document.getElementById("shots").innerHTML="";
+		document.getElementById("info_text").innerHTML="";
 		
 	}else if(cannonballNums == 0 ){
 		document.getElementById("lose").innerHTML= "You lose! Try Again!";
 		document.getElementById("score").innerHTML="";
 		document.getElementById("shots").innerHTML="";
+		document.getElementById("info_text").innerHTML="";
 	}else{
 		document.getElementById("score").innerHTML="Score: "+score;
 		document.getElementById("shots").innerHTML="Shots left: "+cannonballNums;
