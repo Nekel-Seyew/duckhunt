@@ -13,4 +13,8 @@ All files are copyright their respective creators:
 + Stuffed Animal Prize: https://free3d.com/3d-model/stuffed-animal-v1--118142.html
 + Cannon sound: https://freesound.org/people/baefild/sounds/91293/
 + Duck sound: https://freesound.org/people/crazyduckman/sounds/185550/
++ Red Wood: https://www.patternpictures.com/red-painted-wooden-door-texture/
++ Yellow Wood: https://www.123rf.com/photo_22769180_grunge-shabby-background-texture-of-yellow-painted-wooden-board-with-peeling-paint.html
++ Regular Wood:https://www.pexels.com/photo/close-up-of-wooden-plank-326311/
+
 
