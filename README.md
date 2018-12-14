@@ -1,5 +1,7 @@
 # Duck Game Project
 
+To run the game, simply open up duckhunt.html in a browser that supports WebGL, such as latest version of firefox.
+
 All files are copyright their respective creators:
 + Cannon Audio: https://freesound.org/people/baefild/sounds/91293/
 + Rubber Duck: https://free3d.com/3d-model/rubber-duck-v1--250409.html
